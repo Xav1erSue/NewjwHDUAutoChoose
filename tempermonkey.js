@@ -5,7 +5,7 @@
 // @description  杭电新教务系统自动学评教
 // @author       @Xav1erSue
 // @match        http://newjw.hdu.edu.cn/jwglxt/xspjgl/xspj_cxXspjIndex.html*
-// @icon         https://www.google.com/s2/favicons?domain=hdu.edu.cn  
+// @icon         https://www.google.com/s2/favicons?domain=hdu.edu.cn
 // @grant        none
 // ==/UserScript==
 
@@ -27,6 +27,11 @@
     });
   document.getElementById("btn_yd").click();
 
+  setTimeout(function () {
+    document.getElementsByClassName("ui-pg-selbox")[0].style.outline =
+      "5px solid red";
+  }, 1000);
+
   // var submit = document.getElementById("btn_xspj_tj");
   // 为确保不出意外请手动点击提交
 
@@ -34,11 +39,12 @@
   var head = document.getElementsByClassName("navbar-header")[0];
   var btn = document.createElement("button");
   btn.innerText = "点击开始";
-  btn.addEventListener("click", autoChoose);
+  btn.addEventListener("click", start);
   head.appendChild(btn);
   // 提示展开全部课程
   var notice = document.createElement("span");
-  notice.innerText = "请将左侧显示课程数调至可以展示所有课程！初始值为15";
+  notice.innerText =
+    "请将下方显示课程数（红框内）调至可以展示所有课程！初始值为15";
   notice.style.color = "white";
   head.appendChild(notice);
   // 单个教师提交
@@ -51,7 +57,6 @@
     document.getElementById("btn_xspj_bc").click();
     document.getElementById("btn_ok").click();
   }
-
   // 遍历全部学评教
   function autoChoose() {
     // 获取全部可评价课程
@@ -72,5 +77,11 @@
       i++;
       document.getElementById(i).click();
     }, 1000);
+  }
+  function start() {
+    var confirmed = confirm(
+      "您是否已将下方显示课程数（红框内）调至可以展示所有课程\n如果未调整会出现无法全部自动评价的情况！"
+    );
+    if (confirmed) toggleAll();
   }
 })();
