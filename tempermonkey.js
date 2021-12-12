@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         【2021】杭电新教务系统自动学评教
 // @namespace    https://github.com/Xav1erSue/Newjw_HDU_AutoChoose
-// @version      1.0
+// @version      1.1
 // @description  杭电新教务系统自动学评教
 // @author       @Xav1erSue
 // @match        http://newjw.hdu.edu.cn/jwglxt/xspjgl/xspj_cxXspjIndex.html*
