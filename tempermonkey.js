@@ -82,6 +82,6 @@
     var confirmed = confirm(
       "您是否已将下方显示课程数（红框内）调至可以展示所有课程\n如果未调整会出现无法全部自动评价的情况！"
     );
-    if (confirmed) toggleAll();
+    if (confirmed) autoChoose();
   }
 })();
