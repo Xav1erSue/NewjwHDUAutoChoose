@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         【2021】杭电新教务系统自动学评教
 // @namespace    https://github.com/Xav1erSue/Newjw_HDU_AutoChoose
-// @version      2.0
+// @version      3.0
 // @description  杭电新教务系统自动学评教
 // @author       @Xav1erSue
 // @match        http://newjw.hdu.edu.cn/jwglxt/xspjgl/xspj_cxXspjIndex.html*
@@ -11,9 +11,6 @@
 
 (function () {
   ("use strict");
-
-  /* 图形化界面正在开发中…… */
-
   const config = {
     /**
      * 是否开启直接提交
@@ -73,23 +70,132 @@
   const timer = setInterval(() => {
     if (document.querySelector(".ui-pg-selbox")) {
       document.querySelector(".ui-pg-selbox").style.outline = "5px solid red";
-      const head = document.querySelector(".navbar-header");
-      // 挂载开始评价按钮
-      const startBtn = document.createElement("button");
-      startBtn.innerText = "点击开始";
-      startBtn.addEventListener("click", startAutoChoose);
-      head.appendChild(startBtn);
+      const container = document.querySelector("#kc-head");
       // 提示展开全部课程
-      const notice = document.createElement("span");
-      notice.innerText =
-        "请将下方显示课程数（红框内）调至可以展示所有课程！初始值为15";
-      notice.style.color = "white";
-      head.appendChild(notice);
+      const notice =
+        createElement(`<div class="panel panel-info" style="margin-top:10px; margin-bottom:10px">
+      <div class="panel-heading">
+        <h3 class="panel-title">使用须知</h3>
+      </div>
+      <div class="panel-body">
+        <p>请将下方<strong>显示课程数</strong>（红框内）调至可以展示所有课程！初始值为：<span class="label label-danger">15</span></p>
+        <p>未完全展示则<strong>无法全部自动评价</strong></p>
+        <p>默认选项比例为：
+          <span class="label label-success">A: 60%</span>
+          <span class="label label-primary">B: 40%</span>
+          <span class="label label-warning">C: 0%</span>
+          <span class="label label-danger">D: 0%</span>
+        <p>默认的评价方式不会自动提交，需要您检查后自行点击提交</p>
+        <p>如果您希望评价完直接自动提交，可以在下方设置中将 <code>startAndSubmit</code> 选项设置为 <code>true</code></p>
+        <p>选项比例同样可以在下方的设置中进行修改</p>
+        <div><button id="startBtn" class="btn btn-success" style="margin:5px auto; display: block;">开始自动学评教</button></div>
+      </div>
+    </div>`);
+      container.appendChild(notice);
+      document
+        .querySelector("#startBtn")
+        .addEventListener("click", startAutoChoose);
+
+      const configBar =
+        createElement(`<div class="panel panel-warning" style="margin-top:10px; margin-bottom:10px">
+      <div class="panel-heading">
+        <h3 class="panel-title">相关配置</h3>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <p class="text-center" style="margin:10px"><strong>选项比例</strong></p>
+
+            <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="label label-success">A</span></label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="ratio_A" placeholder="0.6" value=${config.ratio["A"]}>
+              </div>
+            </div>
+
+            <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="label label-primary">B</span></label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="ratio_B" placeholder="0.4" value=${config.ratio["B"]}>
+              </div>
+            </div>
+
+            <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="label label-warning">C</span></label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="ratio_C" placeholder="0.0" value=${config.ratio["C"]}>
+              </div>
+            </div>
+
+            <div class="form-group">
+            <label class="col-sm-2 control-label"><span class="label label-danger">D</span></label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="ratio_D" placeholder="0.0" value=${config.ratio["D"]}>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" id="startAndSubmit"> 开始并自动提交
+                </label>
+              </div>
+            </div>
+          </div>
+      </form>
+      <div style="display: flex; justify-content:center;">
+        <button id="confirmSettings" class="btn btn-success" style="display: inline-block; margin:3px">设置</button>
+        <button id="resetSettings" class="btn btn-warning" style="display: inline-block; margin:3px">重置</button>
+      </div>   
+      </div>
+    </div>`);
+      container.appendChild(configBar);
+      document
+        .querySelector("#confirmSettings")
+        .addEventListener("click", () => {
+          const sum =
+            parseFloat(document.querySelector("#ratio_A").value) +
+            parseFloat(document.querySelector("#ratio_B").value) +
+            parseFloat(document.querySelector("#ratio_C").value) +
+            parseFloat(document.querySelector("#ratio_D").value);
+          if (sum == 1) {
+            config.startAndSubmit =
+              document.querySelector("#startAndSubmit").checked;
+            config.ratio["A"] = document.querySelector("#ratio_A").value;
+            config.ratio["B"] = document.querySelector("#ratio_B").value;
+            config.ratio["C"] = document.querySelector("#ratio_C").value;
+            config.ratio["D"] = document.querySelector("#ratio_D").value;
+            $.alert(`设置成功！<br/>
+            比例为：
+              <span class="label label-success">A：${config.ratio["A"]}</span>
+              <span class="label label-primary">B：${config.ratio["B"]}</span>
+              <span class="label label-warning">C：${config.ratio["C"]}</span>
+              <span class="label label-danger">D：${config.ratio["D"]}</span> <br/>
+            开始并自动提交： <code>${config.startAndSubmit}</code> `);
+          } else $.alert("请输入合法的比例！<br/>（相加应为 <code>1</code>）");
+        });
+
+      document.querySelector("#resetSettings").addEventListener("click", () => {
+        config.startAndSubmit = false;
+        config.ratio["A"] = 0.6;
+        config.ratio["B"] = 0.4;
+        config.ratio["C"] = 0;
+        config.ratio["D"] = 0;
+        document.querySelector("#ratio_A").value = config.ratio["A"];
+        document.querySelector("#ratio_B").value = config.ratio["B"];
+        document.querySelector("#ratio_C").value = config.ratio["C"];
+        document.querySelector("#ratio_D").value = config.ratio["D"];
+        document.querySelector("#startAndSubmit").checked =
+          config.startAndSubmit;
+        $.alert("重置成功！");
+      });
       clearInterval(timer);
     }
   }, config.interval);
 
-  const toggleAll = (id, limit) => {
+  function toggleAll(id, limit) {
     document.getElementById(id++).click();
     const timer = setInterval(() => {
       const radios = document.querySelectorAll(".radio-pjf");
@@ -121,22 +227,21 @@
         }, config.interval);
       }
     }, config.interval);
-  };
+  }
 
-  const startAutoChoose = () => {
-    const confirmed =
-      confirm(`您是否已将下方显示课程数（红框内）调至可以展示所有课程
-如果未调整会出现无法全部自动评价的情况！
-默认的评价比例为 A: 60%, B: 40%, C: 0%, D: 0%
-默认的提交方式是直接提交
-如果您不希望评价完提交，请到油猴脚本的设置中将 \`startAndSubmit\` 选项设置为 \`false\`
-比例同样可以在油猴脚本的配置中进行手动修改
-图形化修改界面正在开发，后续会增加更多功能！`);
+  function startAutoChoose() {
+    const confirmed = confirm("确认开始？");
     if (confirmed) {
       const saved = parseInt(document.querySelector("#bc > span").innerText);
       const notRated = parseInt(document.querySelector("#wp > span").innerText);
       const total = saved + notRated;
       toggleAll(1, total);
     }
-  };
+  }
+
+  function createElement(str) {
+    const el = document.createElement("div");
+    el.innerHTML = str;
+    return el.childNodes[0];
+  }
 })();
