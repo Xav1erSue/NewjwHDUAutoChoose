@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         【2021】杭电新教务系统自动学评教
 // @namespace    https://github.com/Xav1erSue/Newjw_HDU_AutoChoose
-// @version      3.0
+// @version      3.1
 // @description  杭电新教务系统自动学评教
 // @author       @Xav1erSue
 // @match        http://newjw.hdu.edu.cn/jwglxt/xspjgl/xspj_cxXspjIndex.html*
@@ -148,7 +148,7 @@
       <div style="display: flex; justify-content:center;">
         <button id="confirmSettings" class="btn btn-success" style="display: inline-block; margin:3px">设置</button>
         <button id="resetSettings" class="btn btn-warning" style="display: inline-block; margin:3px">重置</button>
-      </div>   
+      </div>
       </div>
     </div>`);
       container.appendChild(configBar);
@@ -160,9 +160,7 @@
             parseFloat(document.querySelector("#ratio_B").value) +
             parseFloat(document.querySelector("#ratio_C").value) +
             parseFloat(document.querySelector("#ratio_D").value);
-          if (sum == 1) {
-            config.startAndSubmit =
-              document.querySelector("#startAndSubmit").checked;
+          if (1 - sum < Number.EPSILON) {
             config.ratio["A"] = document.querySelector("#ratio_A").value;
             config.ratio["B"] = document.querySelector("#ratio_B").value;
             config.ratio["C"] = document.querySelector("#ratio_C").value;
