@@ -4,7 +4,7 @@
 // @version      3.1
 // @description  杭电新教务系统自动学评教
 // @author       @Xav1erSue
-// @match        http://newjw.hdu.edu.cn/jwglxt/xspjgl/xspj_cxXspjIndex.html*
+// @match        https://newjw.hdu.edu.cn/jwglxt/xspjgl/xspj_cxXspjIndex.html*
 // @icon         https://www.google.com/s2/favicons?domain=hdu.edu.cn
 // @grant        none
 // ==/UserScript==
