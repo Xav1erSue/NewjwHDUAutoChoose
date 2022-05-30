@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         【2021】杭电新教务系统自动学评教
 // @namespace    https://github.com/Xav1erSue/Newjw_HDU_AutoChoose
-// @version      3.1
+// @version      3.2.0
 // @description  杭电新教务系统自动学评教
 // @author       @Xav1erSue
 // @match        https://newjw.hdu.edu.cn/jwglxt/xspjgl/xspj_cxXspjIndex.html*
@@ -109,28 +109,28 @@
             <div class="form-group">
             <label class="col-sm-2 control-label"><span class="label label-success">A</span></label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="ratio_A" placeholder="0.6" value=${config.ratio["A"]}>
+                <input type="text" class="form-control" id="ratio_A" placeholder="0.6" value="${config.ratio["A"]}">
               </div>
             </div>
 
             <div class="form-group">
             <label class="col-sm-2 control-label"><span class="label label-primary">B</span></label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="ratio_B" placeholder="0.4" value=${config.ratio["B"]}>
+                <input type="text" class="form-control" id="ratio_B" placeholder="0.4" value="${config.ratio["B"]}">
               </div>
             </div>
 
             <div class="form-group">
             <label class="col-sm-2 control-label"><span class="label label-warning">C</span></label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="ratio_C" placeholder="0.0" value=${config.ratio["C"]}>
+                <input type="text" class="form-control" id="ratio_C" placeholder="0.0" value="${config.ratio["C"]}">
               </div>
             </div>
 
             <div class="form-group">
             <label class="col-sm-2 control-label"><span class="label label-danger">D</span></label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="ratio_D" placeholder="0.0" value=${config.ratio["D"]}>
+                <input type="text" class="form-control" id="ratio_D" placeholder="0.0" value="${config.ratio["D"]}">
               </div>
             </div>
           </div>
@@ -161,10 +161,10 @@
             parseFloat(document.querySelector("#ratio_C").value) +
             parseFloat(document.querySelector("#ratio_D").value);
           if (1 - sum < Number.EPSILON) {
-            config.ratio["A"] = document.querySelector("#ratio_A").value;
-            config.ratio["B"] = document.querySelector("#ratio_B").value;
-            config.ratio["C"] = document.querySelector("#ratio_C").value;
-            config.ratio["D"] = document.querySelector("#ratio_D").value;
+            config.ratio["A"] = parseFloat(document.querySelector("#ratio_A").value);
+            config.ratio["B"] = parseFloat(document.querySelector("#ratio_B").value);
+            config.ratio["C"] = parseFloat(document.querySelector("#ratio_C").value);
+            config.ratio["D"] = parseFloat(document.querySelector("#ratio_D").value);
             $.alert(`设置成功！<br/>
             比例为：
               <span class="label label-success">A：${config.ratio["A"]}</span>
