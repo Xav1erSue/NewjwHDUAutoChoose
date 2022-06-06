@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         【2021】杭电新教务系统自动学评教
 // @namespace    https://github.com/Xav1erSue/Newjw_HDU_AutoChoose
-// @version      3.2.0
+// @version      3.2.1
 // @description  杭电新教务系统自动学评教
 // @author       @Xav1erSue
-// @match        https://newjw.hdu.edu.cn/jwglxt/xspjgl/xspj_cxXspjIndex.html*
+// @match        http*://newjw.hdu.edu.cn/jwglxt/xspjgl/xspj_cxXspjIndex.html*
 // @icon         https://www.google.com/s2/favicons?domain=hdu.edu.cn
 // @grant        none
 // ==/UserScript==
@@ -161,10 +161,18 @@
             parseFloat(document.querySelector("#ratio_C").value) +
             parseFloat(document.querySelector("#ratio_D").value);
           if (1 - sum < Number.EPSILON) {
-            config.ratio["A"] = parseFloat(document.querySelector("#ratio_A").value);
-            config.ratio["B"] = parseFloat(document.querySelector("#ratio_B").value);
-            config.ratio["C"] = parseFloat(document.querySelector("#ratio_C").value);
-            config.ratio["D"] = parseFloat(document.querySelector("#ratio_D").value);
+            config.ratio["A"] = parseFloat(
+              document.querySelector("#ratio_A").value
+            );
+            config.ratio["B"] = parseFloat(
+              document.querySelector("#ratio_B").value
+            );
+            config.ratio["C"] = parseFloat(
+              document.querySelector("#ratio_C").value
+            );
+            config.ratio["D"] = parseFloat(
+              document.querySelector("#ratio_D").value
+            );
             $.alert(`设置成功！<br/>
             比例为：
               <span class="label label-success">A：${config.ratio["A"]}</span>
