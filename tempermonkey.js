@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         【2021】杭电新教务系统自动学评教
 // @namespace    https://github.com/Xav1erSue/Newjw_HDU_AutoChoose
-// @version      3.2.1
+// @version      3.2.2
 // @description  杭电新教务系统自动学评教
 // @author       @Xav1erSue
 // @match        http*://newjw.hdu.edu.cn/jwglxt/xspjgl/xspj_cxXspjIndex.html*
@@ -160,7 +160,7 @@
             parseFloat(document.querySelector("#ratio_B").value) +
             parseFloat(document.querySelector("#ratio_C").value) +
             parseFloat(document.querySelector("#ratio_D").value);
-          if (1 - sum < Number.EPSILON) {
+          if (Math.abs(1 - sum) < Number.EPSILON) {
             config.ratio["A"] = parseFloat(
               document.querySelector("#ratio_A").value
             );
