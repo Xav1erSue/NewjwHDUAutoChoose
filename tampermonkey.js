@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         【2021】杭电新教务系统自动学评教
 // @namespace    https://github.com/Xav1erSue/Newjw_HDU_AutoChoose
-// @version      3.2.2
+// @version      3.3.0
 // @description  杭电新教务系统自动学评教
 // @author       @Xav1erSue
 // @match        http*://newjw.hdu.edu.cn/jwglxt/xspjgl/xspj_cxXspjIndex.html*
@@ -69,17 +69,14 @@
 
   const timer = setInterval(() => {
     if (document.querySelector(".ui-pg-selbox")) {
-      document.querySelector(".ui-pg-selbox").style.outline = "5px solid red";
       const container = document.querySelector("#kc-head");
-      // 提示展开全部课程
+
       const notice =
         createElement(`<div class="panel panel-info" style="margin-top:10px; margin-bottom:10px">
       <div class="panel-heading">
         <h3 class="panel-title">使用须知</h3>
       </div>
       <div class="panel-body">
-        <p>请将下方<strong>显示课程数</strong>（红框内）调至可以展示所有课程！初始值为：<span class="label label-danger">15</span></p>
-        <p>未完全展示则<strong>无法全部自动评价</strong></p>
         <p>默认选项比例为：
           <span class="label label-success">A: 60%</span>
           <span class="label label-primary">B: 40%</span>
@@ -197,6 +194,10 @@
           config.startAndSubmit;
         $.alert("重置成功！");
       });
+
+      // 将显示课程数自动调大
+      $(".ui-pg-selbox").val(100).trigger("change");
+
       clearInterval(timer);
     }
   }, config.interval);
